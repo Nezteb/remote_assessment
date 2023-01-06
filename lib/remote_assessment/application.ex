@@ -15,9 +15,10 @@ defmodule RemoteAssessment.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: RemoteAssessment.PubSub},
       # Start the Endpoint (http/https)
-      RemoteAssessmentWeb.Endpoint
+      RemoteAssessmentWeb.Endpoint,
       # Start a worker by calling: RemoteAssessment.Worker.start_link(arg)
       # {RemoteAssessment.Worker, arg}
+      RemoteAssessment.UserPointsUpdater
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

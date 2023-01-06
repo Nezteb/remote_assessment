@@ -1,19 +1,7 @@
 # RemoteAssessment
 
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+1. `mix deps.get`
+2. `mix ecto.setup`
+3. `iex -S mix phx.server`
+4. Look for the PID in the UserPointsUpdater log
+5. Run `RemoteAssessment.UserPointsUpdater.query_user_points(pid(0, 593, 0))` but with the correct PID

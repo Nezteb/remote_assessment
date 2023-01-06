@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Enum.each(1..1000, fn _x ->
+  RemoteAssessment.Repo.insert!(%RemoteAssessment.Users.User{points: 0})
+end)
