@@ -1,6 +1,6 @@
 # Remote Coding Assessment
 
-There are two ways to run/test this
+There are two ways to run/test this: Docker and locally.
 
 ## Docker
 
@@ -16,9 +16,10 @@ To run tests:
 
 1. `mix deps.get`
 2. `mix ecto.setup`
-3. `iex -S mix phx.server`
-4. `RemoteAssessment.UserPointsUpdater.query_user_points()`
-5. Open `http://localhost:4000/` to see two users as JSON
+3. `iex -S mix phx.server` (which starts an interactive `iex` shell)
+4. Open `http://localhost:4000/` to see two users as JSON
+5. To query the GenServer directly: `RemoteAssessment.UserPointsUpdater.query_user_points` (in the `iex` shell)
+6. CTRL+C twice to stop the service when finished
 
 To run tests:
 1. `mix test`
