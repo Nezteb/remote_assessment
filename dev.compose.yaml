@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    depends_on:
+      - database
+    image: stord-assessment:latest
+    build:
+      context: .
+      args:
+        MIX_ENV: dev
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+        DB_HOSTNAME: database
+        DB_DATABASE: remote_assessment_dev
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+  database:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: remote_assessment_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
