@@ -1,4 +1,5 @@
 defmodule RemoteAssessment.UserPointsUpdater do
+  @moduledoc false
   use GenServer
   alias RemoteAssessment.Users
   require Logger
@@ -21,7 +22,7 @@ defmodule RemoteAssessment.UserPointsUpdater do
 
   # Client functions
 
-  def query_user_points() do
+  def query_user_points do
     GenServer.call(__MODULE__, :query_user_points)
   end
 
@@ -53,12 +54,10 @@ defmodule RemoteAssessment.UserPointsUpdater do
   #   - Refresh the `min_number` of the genserver state with a new random number
   @impl true
   def handle_info(:refresh_points, state) do
-    Logger.info("Randomizing user points...")
-    Users.randomize_all_user_points()
-
     new_min_number = Enum.random(0..100)
+    Logger.info("Setting new random min_number (#{new_min_number}) and randomizing user points")
 
-    Logger.info("Setting new min_number: #{new_min_number}")
+    Users.randomize_all_user_points()
 
     new_state = %__MODULE__{
       min_number: new_min_number,

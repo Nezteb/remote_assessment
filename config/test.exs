@@ -20,9 +20,6 @@ config :remote_assessment, RemoteAssessmentWeb.Endpoint,
   secret_key_base: "AnyuEiI3jQtB1eSlUG5ikjoFVYQLc+uBdNe1hstWxxZzkmJ+MuQM4pVZYMv8Odf+",
   server: false
 
-# In test we don't send emails.
-config :remote_assessment, RemoteAssessment.Mailer, adapter: Swoosh.Adapters.Test
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 

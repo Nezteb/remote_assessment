@@ -1,2 +1,3 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(RemoteAssessment.Repo, :manual)
+
+# https://elixirforum.com/t/strange-dbconnection-connectionerror-with-ecto-3-0-6/19806/13

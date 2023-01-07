@@ -11,7 +11,7 @@ defmodule RemoteAssessment.UsersFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        points: 42
+        points: 0
       })
       |> RemoteAssessment.Users.create_user()
 

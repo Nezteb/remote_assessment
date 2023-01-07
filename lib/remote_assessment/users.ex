@@ -15,7 +15,7 @@ defmodule RemoteAssessment.Users do
     |> Repo.all()
   end
 
-  def randomize_all_user_points() do
+  def randomize_all_user_points do
     Repo.transaction(fn ->
       Repo.stream(User)
       |> Task.async_stream(fn user ->
@@ -25,6 +25,14 @@ defmodule RemoteAssessment.Users do
       end)
       |> Stream.run()
     end)
+  end
+
+  def get_user!(id), do: Repo.get!(User, id)
+
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
   end
 
   def update_user(%User{} = user, attrs) do
