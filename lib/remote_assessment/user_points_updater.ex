@@ -6,20 +6,23 @@ defmodule RemoteAssessment.UserPointsUpdater do
   defstruct min_number: 0, last_queried_time: nil
 
   def start_link([] = _args) do
-    GenServer.start_link(__MODULE__, nil)
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
   @impl true
   def init(nil) do
     Logger.info("Starting UserPointsUpdater, PID: #{inspect(self())}")
+
+    # Start the 1-minute interval
     Process.send(self(), :refresh_points, [:noconnect])
+
     {:ok, %__MODULE__{}}
   end
 
   # Client functions
 
-  def query_user_points(pid) do
-    GenServer.call(pid, :query_user_points)
+  def query_user_points() do
+    GenServer.call(__MODULE__, :query_user_points)
   end
 
   # Server callbacks
@@ -30,11 +33,11 @@ defmodule RemoteAssessment.UserPointsUpdater do
   #   - Returns the users just retrieved from the database, as well as the timestamp of the **previous `handle_call`**
   @impl true
   def handle_call(:query_user_points, _from, state) do
-    top_two_users = Users.get_top_two_users_above_threshold(state.min_number)
     new_last_queried_time = DateTime.utc_now()
+    two_users = Users.get_two_users_above_threshold(state.min_number)
 
     Logger.info(
-      "Top two users: #{inspect(top_two_users)}, new last queried time: #{DateTime.to_string(new_last_queried_time)}"
+      "Two users: #{Jason.encode!(two_users)}, new last queried time: #{DateTime.to_string(new_last_queried_time)}"
     )
 
     new_state = %__MODULE__{
@@ -42,7 +45,7 @@ defmodule RemoteAssessment.UserPointsUpdater do
       last_queried_time: new_last_queried_time
     }
 
-    {:reply, {top_two_users, state.last_queried_time}, new_state}
+    {:reply, {two_users, state.last_queried_time}, new_state}
   end
 
   # - Run every minute and when it runs:
