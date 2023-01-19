@@ -54,11 +54,12 @@ defmodule RemoteAssessment.UserPointsUpdater do
   #   - Refresh the `min_number` of the genserver state with a new random number
   @impl true
   def handle_info(:refresh_points, state) do
-    new_min_number = Enum.random(0..100)
-    Logger.info("Setting new random min_number (#{new_min_number}) and randomizing user points")
+    Logger.info("Randomizing user points")
 
     Users.randomize_all_user_points()
 
+    new_min_number = Enum.random(0..100)
+    Logger.info("Setting new random min_number for queries: #{new_min_number}")
     new_state = %__MODULE__{
       min_number: new_min_number,
       last_queried_time: state.last_queried_time

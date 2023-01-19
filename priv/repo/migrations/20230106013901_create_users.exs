@@ -7,5 +7,7 @@ defmodule RemoteAssessment.Repo.Migrations.CreateUsers do
 
       timestamps()
     end
+
+    create index(:users, [:points])
   end
 end

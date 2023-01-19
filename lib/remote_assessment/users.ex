@@ -5,12 +5,13 @@ defmodule RemoteAssessment.Users do
 
   import Ecto.Query, warn: false
   alias RemoteAssessment.Repo
-
   alias RemoteAssessment.Users.User
+
+  require Logger
 
   def get_two_users_above_threshold(min_points) do
     User
-    |> where([u], u.points >= ^min_points)
+    |> where([u], u.points > ^min_points)
     |> limit(2)
     |> Repo.all()
   end
@@ -19,12 +20,13 @@ defmodule RemoteAssessment.Users do
     Repo.transaction(fn ->
       Repo.stream(User)
       |> Task.async_stream(fn user ->
+        new_points = Enum.random(0..100)
         update_user(user, %{
-          points: Enum.random(0..100)
+          points: new_points
         })
       end)
       |> Stream.run()
-    end)
+    end, timeout: :infinity)
   end
 
   def get_user!(id), do: Repo.get!(User, id)
