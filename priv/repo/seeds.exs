@@ -27,7 +27,13 @@ Enum.chunk_every(users, chunk_size)
   RemoteAssessment.Repo.insert_all(RemoteAssessment.Users.User, users_chunk)
 
   new_acc = acc + chunk_size
-  percentage_done = Decimal.div(new_acc, number_of_users_to_seed) |> Decimal.mult(100) |> Decimal.round() |> Decimal.to_string(:normal)
+
+  percentage_done =
+    Decimal.div(new_acc, number_of_users_to_seed)
+    |> Decimal.mult(100)
+    |> Decimal.round()
+    |> Decimal.to_string(:normal)
+
   IO.puts("Insert users: #{new_acc} / #{number_of_users_to_seed} (#{percentage_done}%)")
 
   new_acc

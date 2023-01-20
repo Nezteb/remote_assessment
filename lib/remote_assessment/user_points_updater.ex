@@ -60,6 +60,7 @@ defmodule RemoteAssessment.UserPointsUpdater do
 
     new_min_number = Enum.random(0..100)
     Logger.info("Setting new random min_number for queries: #{new_min_number}")
+
     new_state = %__MODULE__{
       min_number: new_min_number,
       last_queried_time: state.last_queried_time

@@ -19,14 +19,22 @@ defmodule RemoteAssessment.Users do
   def randomize_all_user_points do
     Repo.transaction(fn ->
       Repo.stream(User)
-      |> Task.async_stream(fn user ->
-        new_points = Enum.random(0..100)
-        update_user(user, %{
-          points: new_points
-        })
+      |> Stream.chunk_every(1000)
+      |> Task.async_stream(fn users ->
+        Enum.map(users, fn user ->
+          new_points = Enum.random(0..100)
+
+          # Logger.debug(
+          #   "Randomizing points for user: #{user.id}, before: #{user.points}, after: #{new_points}"
+          # )
+
+          update_user(user, %{
+            points: new_points
+          })
+        end)
       end)
       |> Stream.run()
-    end, timeout: :infinity)
+    end)
   end
 
   def get_user!(id), do: Repo.get!(User, id)
